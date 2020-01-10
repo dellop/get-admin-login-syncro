@@ -1,0 +1,9 @@
+#REPLACE ADMIN USERNAME BELOW
+
+Import-Module $env:SyncroModule
+
+$logon = Get-EventLog -LogName Security -after (get-date).AddMinutes(-15) -InstanceId 4624,4776 -Message "*ADMIN-USERNAME*" | Select-Object -Property TimeGenerated
+if ($logon) {
+    Rmm-Alert -Category "Admin Logon" -Body [string]$logon
+}
+exit
